@@ -6,6 +6,7 @@ class Alumni(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     batch = models.CharField(max_length=100)
+    alumni_no = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

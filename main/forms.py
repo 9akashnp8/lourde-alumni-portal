@@ -7,3 +7,4 @@ class RegistrationForm(ModelForm):
     class Meta:
         model = Alumni
         fields = '__all__'
+        exclude = ['alumni_no']
