@@ -1,12 +1,12 @@
+from django.http import HttpResponse
 import razorpay
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from .forms import RegistrationForm
 
-client = razorpay.Client(auth=("rzp_live_lf0bv0XHtSh7so","RNzB8Brxh6WAL7Rv2HAvNfH8"))
-
 #Confirmation Email
-SUBJECT = f"Welcome to the family {name}! You have successfully registered as an LMS Alumni"
+SUBJECT = "Welcome to the family! You have successfully registered as an LMS Alumni"
 MESSAGE = "Hello {name}, thank you for being a part of our family."
 
 # Create your views here.
@@ -26,3 +26,8 @@ def register(request):
 
     context = {'form':form}    
     return render(request, 'register.html', context=context)
+
+@csrf_exempt
+def webhook(request):
+
+    return HttpResponse("200")
