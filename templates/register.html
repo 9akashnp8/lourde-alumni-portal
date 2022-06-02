@@ -1,10 +1,48 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Register</h1>
-<form method="post">
+<!-- <form method="post">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Submit">
-</form>
+</form> -->
+<section class="vh-100" style="background-color: #8fc4b7;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3">
+            <img src="https://i.imgur.com/7wxRDjE.png"
+              class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+              alt="Sample photo">
+            <div class="card-body p-4 p-md-5">
+              <h4 class="mb-4 pb-2 pb-md-0 mb-md-4 px-md-2">Enter your details below:</h4>
+
+              <form class="px-md-2" method="post">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                  <input type="text" name="name" class="form-control" placeholder="Name"/>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="text" name="phone" class="form-control" placeholder="Phone"/>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="text" name="email" class="form-control" placeholder="Email"/>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="text" name="batch" class="form-control" placeholder="Batch/Year"/>
+                </div>
+  
+                <input type="submit" class="btn btn-success btn-lg mb-1">
+  
+              </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
 {% endblock content %}
