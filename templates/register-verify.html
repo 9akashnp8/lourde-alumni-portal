@@ -1,9 +1,33 @@
 {% extends 'register-base.html' %}
 
+{% block instructions %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">1. Fill the Application form</li>
+    <li class="list-group-item"style="font-size: 18px; font-weight: bold;">2. Verify the details entered</li>
+    <li class="list-group-item">3. Make the payment</li>
+</ul>
+{% endblock instructions %}
+
 {% block stage_status %}
 <h4>Verify your details!</h4>
 {% endblock stage_status%}
 
 {% block form %}
-Verify Form
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-2">
+        <span><i class="bi bi-person-fill"></i>: {{alumni.name}}</span>
+    </div>
+    <div class="mb-2">
+        <span><i class="bi bi-phone-fill"></i>: {{alumni.phone}}</span>
+    </div>
+    <div class="mb-2">
+        <span><i class="bi bi-envelope-fill"></i>: {{alumni.email}}</span>
+    </div>
+    <div class="mb-2">
+        <span><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
+    </div>
+    <button class="btn btn-primary" href="{% url 'regEdit' alumni.id %}">Edit</button>
+    <input type="submit" value="Submit" class="btn btn-success">
+</form>
 {% endblock form %}
