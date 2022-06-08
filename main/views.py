@@ -25,7 +25,7 @@ def register(request):
             # payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
             # return redirect(f'{payment_url}email={email}&name={name}')
     context = {'form':form}    
-    return render(request, 'register.html', context=context)
+    return render(request, 'register-application.html', context=context)
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
@@ -33,7 +33,7 @@ def regVerification(request, id):
         payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
         return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
     context = {'alumni':alumni}
-    return render(request, 'regVerification.html', context)
+    return render(request, 'register-verify.html', context)
 
 def regEdit(request, id):
     instance = Alumni.objects.get(id=id)

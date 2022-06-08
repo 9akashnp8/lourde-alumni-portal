@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form> -->
+<div class="container">
+  <section>
+    <div class="row my-4">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h4>Instructions</h4>
+            {% block instructions %}
+
+            {% endblock instructions %}
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center">
+          <div class="card-body">
+            {% block stage_status %} 
+            
+            {% endblock stage_status %}
+            {% block form %}
+
+            {% endblock form%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock content %}

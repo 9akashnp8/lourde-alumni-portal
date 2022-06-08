@@ -1,0 +1,36 @@
+{% extends 'register-base.html' %}
+
+{% block instructions %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item" style="font-size: 18px; font-weight: bold;">1. Fill the Application form</li>
+    <li class="list-group-item">2. Verify the details entered</li>
+    <li class="list-group-item">3. Make the payment</li>
+</ul>
+{% endblock instructions %}
+
+{% block stage_status %}
+<h4>Application Form:</h4>
+{% endblock stage_status%}
+
+{% block form %}
+<form method="post">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+      <input type="text" class="form-control" name='name' placeholder="John Doe" aria-label="Name" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-phone-fill"></i></span>
+        <input type="text" class="form-control" name='phone' placeholder="8075680337" aria-label="Phone" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-fill"></i></span>
+        <input type="text" class="form-control" name='email' placeholder="example@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span>
+        <input type="text" class="form-control" name='batch' placeholder="1998" aria-label="Batch" aria-describedby="basic-addon1">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+{% endblock form%}
