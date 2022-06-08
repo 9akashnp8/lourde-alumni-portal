@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
+
+from main.models import Alumni
 from .forms import RegistrationForm
 
 #Confirmation Email
@@ -18,18 +19,33 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            request.session['registered_data'] = {
-                'name': form.cleaned_data['name'],
-                'email': form.cleaned_data['email'],
-                'phone': form.cleaned_data['phone'],
-                'batch': form.cleaned_data['batch'],
-            }
-            return HttpResponse("Registered")
+            form.save()
+            id = Alumni.objects.get(email=form.cleaned_data['email']).id
+            return redirect(regVerification, id)
             # payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
             # return redirect(f'{payment_url}email={email}&name={name}')
-
     context = {'form':form}    
     return render(request, 'register.html', context=context)
+
+def regVerification(request, id):
+    alumni = Alumni.objects.get(id=id)
+    if request.method == 'POST':
+        payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
+        return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
+    context = {'alumni':alumni}
+    return render(request, 'regVerification.html', context)
+
+def regEdit(request, id):
+    instance = Alumni.objects.get(id=id)
+    form = RegistrationForm(instance=instance)
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(regVerification, instance.id)
+        
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
 @csrf_exempt
 def webhook(request):
