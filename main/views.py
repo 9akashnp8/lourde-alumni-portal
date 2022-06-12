@@ -26,16 +26,16 @@ def register(request):
             except Alumni.MultipleObjectsReturned:
                 return HttpResponse("You have already registered, check your application status here!")
     context = {'form':form}    
-    return render(request, 'register-application.html', context=context)
+    return render(request, 'application/register-application.html', context=context)
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
     context = {'alumni':alumni}
-    return render(request, 'register-verify.html', context)
+    return render(request, 'application/register-verify.html', context)
 
 def payment(request, id):
     alumni = Alumni.objects.get(id=id)
-    payment_url = 'https://pages.razorpay.com/lms-alumni?'
+    payment_url = 'https://pages.razorpay.com/pl_Jf51lpvFzqZfaH/view?'
     return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
 
 def regEdit(request, id):
@@ -48,7 +48,7 @@ def regEdit(request, id):
             return redirect(regVerification, instance.id)
         
     context = {'form':form, 'instance':instance}
-    return render(request, 'register-application.html', context)
+    return render(request, 'application/register-application.html', context)
 
 @csrf_exempt
 def webhook(request):
