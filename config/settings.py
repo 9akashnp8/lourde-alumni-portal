@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-^@o96ygsl6fb8(htdvmstq4axlqa^))jj&unny3n5sx0(*!5_x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'bf87-2409-4073-209a-e365-515d-6e47-53c2-8a2.in.ngrok.io',]
 
 
 # Application definition
@@ -134,3 +134,6 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = env.str("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
+
+#Others
+CSRF_TRUSTED_ORIGINS = ['https://*.in.ngrok.io/', 'https://*.127.0.0.1', 'https://api.razorpay.com']

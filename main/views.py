@@ -1,14 +1,17 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
-from django.core.mail import send_mail
-
 from main.models import Alumni
 from .forms import RegistrationForm
+import razorpay
 
-#Confirmation Email
-SUBJECT = 'Welcome to the family! You have successfully registered as an LMS Alumni'
-MESSAGE = 'Hello {name}, thank you for being a part of our family.'
+#Helper functions
+def createOrder():
+    client = razorpay.Client(auth=("rzp_test_El7Ix2MLAjhhaV", "xBLuN8kFuD368XeUPIximvOJ"))
+    client.set_app_details({"title" : "LMS Alumni Payment App", "version" : "0.1"})
+    data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
+    orderID = client.order.create(data=data)
+    return orderID
 
 # Create your views here.
 def home(request):
@@ -30,7 +33,8 @@ def register(request):
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
-    context = {'alumni':alumni}
+    orderID = createOrder()
+    context = {'key_id': 'rzp_test_El7Ix2MLAjhhaV', 'order_id': orderID['id'], 'alumni':alumni}
     return render(request, 'application/register-verify.html', context)
 
 def regEdit(request, id):
@@ -45,15 +49,17 @@ def regEdit(request, id):
     context = {'form':form, 'instance':instance}
     return render(request, 'application/register-application.html', context)
 
-def payment(request, id):
-    alumni = Alumni.objects.get(id=id)
-    payment_url = 'https://pages.razorpay.com/pl_Jf51lpvFzqZfaH/view?'
-    return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
-
-def thankyou(request):
-    return render(request, 'thankyou.html')
-
 @csrf_exempt
-def webhook(request):
-
-    return HttpResponse('200')
+def thankyou(request, id):
+    alumni = Alumni.objects.get(id=id)
+    if request.method == 'POST':
+        try:
+            payment_info = dict(request.POST)
+            payment_id = payment_info['razorpay_payment_id'][0]
+            order_id = payment_info['razorpay_order_id'][0]
+            alumni.razor_payment_id = payment_id
+            alumni.razor_order_id = order_id
+            alumni.save()
+        except KeyError:
+            return HttpResponse("Payment failed, please try again!")
+    return render(request, 'thankyou.html')
