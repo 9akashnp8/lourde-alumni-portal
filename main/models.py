@@ -8,6 +8,8 @@ class Alumni(models.Model):
     email = models.EmailField()
     batch = models.CharField(max_length=100)
     application_no = models.CharField(max_length=100)
+    is_paid = models.BooleanField()
+    alumni_no = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -18,5 +20,10 @@ class Alumni(models.Model):
             prefix = 'LMS-APPL-'
             id = self.id
             self.application_no = prefix+str(id)
+            super(Alumni, self).save(*args, **kwargs)
+        if self.is_paid:
+            prefix = 'LMS-ALUM-'
+            id = self.id
+            self.alumni_no = prefix+str(id)
             super(Alumni, self).save(*args, **kwargs)
         
