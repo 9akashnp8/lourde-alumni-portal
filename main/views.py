@@ -30,11 +30,13 @@ def register(request):
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
-    if request.method == 'POST':
-        payment_url = 'https://pages.razorpay.com/lms-alumni?'
-        return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
     context = {'alumni':alumni}
     return render(request, 'register-verify.html', context)
+
+def payment(request, id):
+    alumni = Alumni.objects.get(id=id)
+    payment_url = 'https://pages.razorpay.com/lms-alumni?'
+    return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
 
 def regEdit(request, id):
     instance = Alumni.objects.get(id=id)

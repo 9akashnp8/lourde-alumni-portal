@@ -13,21 +13,33 @@
 {% endblock stage_status%}
 
 {% block form %}
-<form method="post">
-    {% csrf_token %}
-    <div class="mb-2">
-        <span><i class="bi bi-person-fill"></i>: {{alumni.name}}</span>
+<hr>
+<div class="row">
+    <div class="col">
+        <div class="mb-2">
+            <span><i class="bi bi-person-fill"></i>: {{alumni.name}}</span>
+        </div>
     </div>
-    <div class="mb-2">
-        <span><i class="bi bi-phone-fill"></i>: {{alumni.phone}}</span>
+    <div class="col">
+        <div class="mb-2">
+            <span><i class="bi bi-phone-fill"></i>: {{alumni.phone}}</span>
+        </div>
     </div>
-    <div class="mb-2">
-        <span><i class="bi bi-envelope-fill"></i>: {{alumni.email}}</span>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="mb-2">
+            <span><i class="bi bi-envelope-fill"></i>: {{alumni.email}}</span>
+        </div>
     </div>
-    <div class="mb-2">
-        <span><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
+    <div class="col">
+        <div class="mb-2">
+            <span><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
+        </div>
     </div>
-    <a class="btn btn-primary" href="{% url 'regEdit' alumni.id %}">Edit</a>
-    <input type="submit" value="Submit" class="btn btn-success">
-</form>
+</div>
+<hr>
+<a class="btn btn-primary" href="{% url 'regEdit' alumni.id %}">Edit</a>
+<a class='btn btn-success' href="{% url 'payment' alumni.id %}">Proceed to payment</a>
+
 {% endblock form %}
