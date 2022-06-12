@@ -33,11 +33,6 @@ def regVerification(request, id):
     context = {'alumni':alumni}
     return render(request, 'application/register-verify.html', context)
 
-def payment(request, id):
-    alumni = Alumni.objects.get(id=id)
-    payment_url = 'https://pages.razorpay.com/pl_Jf51lpvFzqZfaH/view?'
-    return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
-
 def regEdit(request, id):
     instance = Alumni.objects.get(id=id)
     form = RegistrationForm()
@@ -49,6 +44,14 @@ def regEdit(request, id):
         
     context = {'form':form, 'instance':instance}
     return render(request, 'application/register-application.html', context)
+
+def payment(request, id):
+    alumni = Alumni.objects.get(id=id)
+    payment_url = 'https://pages.razorpay.com/pl_Jf51lpvFzqZfaH/view?'
+    return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
+
+def thankyou(request):
+    return render(request, 'thankyou.html')
 
 @csrf_exempt
 def webhook(request):
