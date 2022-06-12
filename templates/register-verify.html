@@ -27,7 +27,7 @@
     <div class="mb-2">
         <span><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
     </div>
-    <button class="btn btn-primary" href="{% url 'regEdit' alumni.id %}">Edit</button>
+    <a class="btn btn-primary" href="{% url 'regEdit' alumni.id %}">Edit</a>
     <input type="submit" value="Submit" class="btn btn-success">
 </form>
 {% endblock form %}

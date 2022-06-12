@@ -20,32 +20,33 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            id = Alumni.objects.get(email=form.cleaned_data['email']).id
-            return redirect(regVerification, id)
-            # payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
-            # return redirect(f'{payment_url}email={email}&name={name}')
+            try:
+                id = Alumni.objects.get(email=form.cleaned_data['email']).id
+                return redirect(regVerification, id)
+            except Alumni.MultipleObjectsReturned:
+                return HttpResponse("You have already registered, check your application status here!")
     context = {'form':form}    
     return render(request, 'register-application.html', context=context)
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
     if request.method == 'POST':
-        payment_url = 'https://pages.razorpay.com/pl_JbXTzuuJU9gcsA/view?'
+        payment_url = 'https://pages.razorpay.com/lms-alumni?'
         return redirect(f'{payment_url}email={alumni.email}&name={alumni.name}&phone={alumni.phone}')
     context = {'alumni':alumni}
     return render(request, 'register-verify.html', context)
 
 def regEdit(request, id):
     instance = Alumni.objects.get(id=id)
-    form = RegistrationForm(instance=instance)
+    form = RegistrationForm()
     if request.method == 'POST':
-        form = RegistrationForm(request.POST, instance=instance)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect(regVerification, instance.id)
         
-    context = {'form':form}
-    return render(request, 'register.html', context)
+    context = {'form':form, 'instance':instance}
+    return render(request, 'register-application.html', context)
 
 @csrf_exempt
 def webhook(request):
