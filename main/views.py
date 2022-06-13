@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
 from main.models import Alumni
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ContinueApplicationForm
 import razorpay
 
 #Helper functions
@@ -13,22 +13,45 @@ def createOrder():
     orderID = client.order.create(data=data)
     return orderID
 
+def continue_application(request):
+    continue_form = ContinueApplicationForm(request.POST)
+    if continue_form.is_valid():
+        alumni = Alumni.objects.get(email=continue_form.cleaned_data['email'])
+        if alumni.is_paid:
+            return HttpResponse("You have completed your application")
+        else:
+            return redirect(regVerification, alumni.id)
+
+
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    continue_form = ContinueApplicationForm()
+    if request.method == 'POST':
+        continue_form = ContinueApplicationForm(request.POST)
+        if continue_form.is_valid():
+            alumni = Alumni.objects.get(email=continue_form.cleaned_data['email'])
+            if alumni.is_paid:
+                return HttpResponse("You have completed your application")
+            return redirect(regVerification, alumni.id)
+    context = {'continue_form':continue_form}
+    return render(request, 'home.html', context)
 
 def register(request):
     form = RegistrationForm()
+    continue_form = ContinueApplicationForm()
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            try:
-                id = Alumni.objects.get(email=form.cleaned_data['email']).id
-                return redirect(regVerification, id)
-            except Alumni.MultipleObjectsReturned:
-                return HttpResponse("You have already registered, check your application status here!")
-    context = {'form':form}    
+        if 'continue-application' in request.POST:
+            continue_application(request)
+        if 'registration' in request.POST:
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                try:
+                    id = Alumni.objects.get(email=form.cleaned_data['email']).id
+                    return redirect(regVerification, id)
+                except Alumni.MultipleObjectsReturned:
+                    return HttpResponse("You have already registered, check your application status here!")
+    context = {'form':form, 'continue_form':continue_form}    
     return render(request, 'application/register-application.html', context=context)
 
 def regVerification(request, id):

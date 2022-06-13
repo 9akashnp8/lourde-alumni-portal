@@ -8,3 +8,7 @@ class RegistrationForm(ModelForm):
         model = Alumni
         fields = '__all__'
         exclude = ['application_no']
+
+class ContinueApplicationForm(forms.Form):
+    email = forms.CharField(label='Email ID', max_length=100)
+
