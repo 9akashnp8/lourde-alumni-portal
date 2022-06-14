@@ -13,14 +13,12 @@ def createOrder():
     orderID = client.order.create(data=data)
     return orderID
 
-def continue_application(request):
-    continue_form = ContinueApplicationForm(request.POST)
-    if continue_form.is_valid():
-        alumni = Alumni.objects.get(email=continue_form.cleaned_data['email'])
-        if alumni.is_paid:
-            return HttpResponse("You have completed your application")
-        else:
-            return redirect(regVerification, alumni.id)
+def continue_application(email):
+    alumni = Alumni.objects.get(email=email)
+    if alumni.is_paid:
+        return HttpResponse("You have completed your application")
+    else:
+        return redirect(regVerification, alumni.id)
 
 
 # Create your views here.
@@ -29,10 +27,7 @@ def home(request):
     if request.method == 'POST':
         continue_form = ContinueApplicationForm(request.POST)
         if continue_form.is_valid():
-            alumni = Alumni.objects.get(email=continue_form.cleaned_data['email'])
-            if alumni.is_paid:
-                return HttpResponse("You have completed your application")
-            return redirect(regVerification, alumni.id)
+            continue_application(continue_form.cleaned_data['email'])
     context = {'continue_form':continue_form}
     return render(request, 'home.html', context)
 
@@ -41,7 +36,9 @@ def register(request):
     continue_form = ContinueApplicationForm()
     if request.method == 'POST':
         if 'continue-application' in request.POST:
-            continue_application(request)
+            continue_form = ContinueApplicationForm(request.POST)
+            if continue_form.is_valid():
+                continue_application(continue_form.cleaned_data['email'])
         if 'registration' in request.POST:
             form = RegistrationForm(request.POST)
             if form.is_valid():
@@ -52,12 +49,19 @@ def register(request):
                 except Alumni.MultipleObjectsReturned:
                     return HttpResponse("You have already registered, check your application status here!")
     context = {'form':form, 'continue_form':continue_form}    
-    return render(request, 'application/register-application.html', context=context)
+    return render(request, 'application/register-application.html', context)
 
 def regVerification(request, id):
+    continue_form = ContinueApplicationForm()
+    if request.method == 'POST':
+        if 'continue-application' in request.POST:
+            continue_form = ContinueApplicationForm(request.POST)
+            if continue_form.is_valid():
+                continue_application(continue_form.cleaned_data['email'])
+
     alumni = Alumni.objects.get(id=id)
     orderID = createOrder()
-    context = {'key_id': 'rzp_test_El7Ix2MLAjhhaV', 'order_id': orderID['id'], 'alumni':alumni}
+    context = {'key_id': 'rzp_test_El7Ix2MLAjhhaV', 'order_id': orderID['id'], 'alumni':alumni, 'continue_form':continue_form}
     return render(request, 'application/register-verify.html', context)
 
 def regEdit(request, id):

@@ -7,7 +7,7 @@ class Alumni(models.Model):
     phone = models.IntegerField()
     email = models.EmailField()
     batch = models.CharField(max_length=100)
-    application_no = models.CharField(max_length=100)
+    application_no = models.CharField(max_length=100, blank=True)
     razor_payment_id = models.CharField(max_length=100, blank=True)
     razor_order_id = models.CharField(max_length=100, blank=True)
     is_paid = models.BooleanField(blank=True)
