@@ -18,8 +18,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <li><a class="dropdown-item" href="#">Get Application Number</a></li>
-              <li><a class="dropdown-item" href="#">Get Application Status</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Continue Application</a></li>
+              <li><a class="dropdown-item">Get Application Status</a></li>
+              <li><a class="dropdown-item">Continue Application</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -35,16 +35,3 @@
       </div>
     </div>
 </nav>
-<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasTopLabel">Offcanvas top</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <form method="post">
-      {% csrf_token %}
-      {{continue_form}}
-      <input type="submit" name="continue-application" value="Search">
-    </form>
-  </div>
-</div>
