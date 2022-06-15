@@ -15,27 +15,23 @@
 {% block form %}
 <hr>
 <div class="row">
-    <div class="col">
-        <div class="mb-2">
-            <span><i class="bi bi-person-fill"></i>: {{alumni.name}}</span>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <span><i class="bi bi-phone-fill"></i>: {{alumni.phone}}</span>
-        </div>
+    <div class="mb-2">
+        <span id="verification-text"><i class="bi bi-person-fill"></i>: {{alumni.name}}</span>
     </div>
 </div>
 <div class="row">
-    <div class="col">
-        <div class="mb-2">
-            <span><i class="bi bi-envelope-fill"></i>: {{alumni.email}}</span>
-        </div>
+    <div class="mb-2">
+        <span id="verification-text"><i class="bi bi-phone-fill"></i>: {{alumni.phone}}</span>
     </div>
-    <div class="col">
-        <div class="mb-2">
-            <span><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
-        </div>
+</div>
+<div class="row">
+    <div class="mb-2">
+        <span id="verification-text"><i class="bi bi-envelope-fill"></i>: {{alumni.email}}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="mb-2">
+        <span id="verification-text"><i class="bi bi-book-fill"></i>: {{alumni.batch}}</span>
     </div>
 </div>
 <hr>
