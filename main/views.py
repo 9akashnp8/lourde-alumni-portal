@@ -63,4 +63,5 @@ def thankyou(request, id):
             alumni.save()
         except KeyError:
             return HttpResponse("Payment failed, please try again!")
-    return render(request, 'thankyou.html')
+    context = {'alumni':alumni}
+    return render(request, 'thankyou.html', context)
