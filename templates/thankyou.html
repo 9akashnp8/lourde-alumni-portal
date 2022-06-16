@@ -6,7 +6,7 @@
     <br>
     <p class="col-md-8 fs-4">Thank you {{alumni.name}} for becoming an Alumni. You will be receive all the alumni information to your registered email address. You can view your application status below:</p>
     <br>
-    <button class="btn btn-primary btn-lg" type="button">View Application Status</button>
+    <a class="btn btn-primary btn-lg" href="{% url 'getApplicationStatus' %}">View Application Status</a>
     <br>
 </div>
 {% endblock content %}

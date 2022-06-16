@@ -56,12 +56,62 @@ def thankyou(request, id):
     if request.method == 'POST':
         try:
             payment_info = dict(request.POST)
-            payment_id = payment_info['razorpay_payment_id'][0]
-            order_id = payment_info['razorpay_order_id'][0]
-            alumni.razor_payment_id = payment_id
-            alumni.razor_order_id = order_id
+            alumni.razor_payment_id = payment_info['razorpay_payment_id'][0]
+            alumni.razor_order_id = payment_info['razorpay_order_id'][0]
             alumni.save()
         except KeyError:
             return HttpResponse("Payment failed, please try again!")
     context = {'alumni':alumni}
     return render(request, 'thankyou.html', context)
+
+def getApplicationStatus(request):
+    form = GeneralSearchForm()
+    if request.method == "POST":
+        form = GeneralSearchForm(request.POST)
+        if form.is_valid():
+            result = Alumni.objects.get(email=form.cleaned_data['email'])
+            return redirect(application, result.id)
+    context = {'form':form}
+    return render(request, 'application/search.html', context)
+
+def getApplicationNumber(request):
+    form = GeneralSearchForm()
+    if request.method == "POST":
+        form = GeneralSearchForm(request.POST)
+        if form.is_valid():
+            result = Alumni.objects.get(email=form.cleaned_data['email'])
+            return redirect(application, result.id)
+    context={'form':form}
+    return render(request, 'application/search.html', context)
+
+def getAlumniNumber(request):
+    form = GeneralSearchForm()
+    if request.method == "POST":
+        form = GeneralSearchForm(request.POST)
+        if form.is_valid():
+            result = Alumni.objects.get(email=form.cleaned_data['email'])
+            return redirect(alumniProfile, result.id)
+    context = {'form':form}
+    return render(request, 'application/search.html', context)
+
+def getAlumniStatus(request):
+    form = GeneralSearchForm()
+    if request.method == "POST":
+        form = GeneralSearchForm(request.POST)
+        if form.is_valid():
+            result = Alumni.objects.get(email=form.cleaned_data['email'])
+            return redirect(alumniProfile, result.id)
+    context = {'form':form}
+    return render(request, 'application/search.html', context)
+
+def application(request, id):
+    result = Alumni.objects.get(id=id)
+    return HttpResponse(f"Hello {result.name}")
+
+def alumniProfile(request, id):
+    result = Alumni.objects.get(id=id)
+    if result.is_paid:
+        return HttpResponse(f"Your alumni no: {result.alumni_no}")
+    else:
+        return HttpResponse("You have not paid, click here to continue application")
+    
