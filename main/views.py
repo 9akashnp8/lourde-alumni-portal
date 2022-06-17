@@ -95,14 +95,7 @@ def getAlumniNumber(request):
     return render(request, 'application/search.html', context)
 
 def getAlumniStatus(request):
-    form = GeneralSearchForm()
-    if request.method == "POST":
-        form = GeneralSearchForm(request.POST)
-        if form.is_valid():
-            result = Alumni.objects.get(email=form.cleaned_data['email'])
-            return redirect(alumniProfile, result.id)
-    context = {'form':form}
-    return render(request, 'application/search.html', context)
+    return render(request, 'application/search.html')
 
 def application(request, id):
     result = Alumni.objects.get(id=id)
@@ -114,4 +107,11 @@ def alumniProfile(request, id):
         return HttpResponse(f"Your alumni no: {result.alumni_no}")
     else:
         return HttpResponse("You have not paid, click here to continue application")
+
+def searchResults(request):
+    email = request.POST.get('email')
+    result = Alumni.objects.get(email=email)
+    context = {'result':result}
+    return render(request, 'partials/search-results.html', context)
+
     

@@ -14,4 +14,5 @@ urlpatterns = [
     path('get-alumni-status/', views.getAlumniStatus, name='getAlumniStatus'),
     path('application/<str:id>', views.application, name='application'),
     path('alumni/<str:id>', views.alumniProfile, name='alumniProfile'),
+    path('search-alumni/', views.searchResults, name='searchAlumni')
 ]
