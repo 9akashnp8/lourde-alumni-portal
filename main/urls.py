@@ -8,11 +8,6 @@ urlpatterns = [
     path('verify/<str:id>', views.regVerification, name='regVerification'),
     path('thank-you/<str:id>', views.thankyou, name='thankyou'),
 
-    path('get-application-status/', views.getApplicationStatus, name='getApplicationStatus'),
-    path('get-application-number/', views.getApplicationNumber, name='getApplicationNumber'),
-    path('get-alumni-number/', views.getAlumniNumber, name='getAlumniNumber'),
-    path('get-alumni-status/', views.getAlumniStatus, name='getAlumniStatus'),
-    path('application/<str:id>', views.application, name='application'),
-    path('alumni/<str:id>', views.alumniProfile, name='alumniProfile'),
-    path('search-alumni/', views.searchResults, name='searchAlumni')
+    path('search/', views.search, name='search'),
+    path('search-results/', views.searchResults, name='searchResults')
 ]

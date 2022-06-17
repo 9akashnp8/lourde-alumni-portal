@@ -64,54 +64,17 @@ def thankyou(request, id):
     context = {'alumni':alumni}
     return render(request, 'thankyou.html', context)
 
-def getApplicationStatus(request):
-    form = GeneralSearchForm()
-    if request.method == "POST":
-        form = GeneralSearchForm(request.POST)
-        if form.is_valid():
-            result = Alumni.objects.get(email=form.cleaned_data['email'])
-            return redirect(application, result.id)
-    context = {'form':form}
-    return render(request, 'application/search.html', context)
-
-def getApplicationNumber(request):
-    form = GeneralSearchForm()
-    if request.method == "POST":
-        form = GeneralSearchForm(request.POST)
-        if form.is_valid():
-            result = Alumni.objects.get(email=form.cleaned_data['email'])
-            return redirect(application, result.id)
-    context={'form':form}
-    return render(request, 'application/search.html', context)
-
-def getAlumniNumber(request):
-    form = GeneralSearchForm()
-    if request.method == "POST":
-        form = GeneralSearchForm(request.POST)
-        if form.is_valid():
-            result = Alumni.objects.get(email=form.cleaned_data['email'])
-            return redirect(alumniProfile, result.id)
-    context = {'form':form}
-    return render(request, 'application/search.html', context)
-
-def getAlumniStatus(request):
+def search(request):
     return render(request, 'application/search.html')
-
-def application(request, id):
-    result = Alumni.objects.get(id=id)
-    return HttpResponse(f"Hello {result.name}")
-
-def alumniProfile(request, id):
-    result = Alumni.objects.get(id=id)
-    if result.is_paid:
-        return HttpResponse(f"Your alumni no: {result.alumni_no}")
-    else:
-        return HttpResponse("You have not paid, click here to continue application")
 
 def searchResults(request):
     email = request.POST.get('email')
     result = Alumni.objects.get(email=email)
-    context = {'result':result}
-    return render(request, 'partials/search-results.html', context)
+    if result.is_paid:
+        context = {'alumni':result}
+        return render(request, 'partials/alumni-info.html', context)
+    else:
+        context = {'applicant':result}
+        return render(request, 'partials/application-info.html', context)
 
     

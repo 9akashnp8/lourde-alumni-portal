@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container p-5">
+<div class="container p-4">
     <div class="card">
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
-                <div>
+                <div class="d-flex flex-column align-items-center">
                     <label for="id_email">Enter your registered email:</label>
-                </div>
-                <div>
                     <input type="text" name="email" id="id_email">
                 </div>
                 <div class="d-flex justify-content-center" style="margin-top: 20px;">
-                    <button hx-post="{% url 'searchAlumni' %}" hx-target="#search-result">
+                    <button hx-post="{% url 'searchResults' %}" hx-target="#search-result"
+                        class="btn btn-primary">
                         Search
                     </button>
                 </div>
             </form>  
         </div>
     </div>
-    <div id="search-result">
+    <hr>
+    <div id="search-result" style="margin-top: 20px;">
 
     </div>
-
 </div>
 {% endblock content%}
