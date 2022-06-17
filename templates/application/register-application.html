@@ -16,18 +16,22 @@
 {% block form %}
 <form method="post">
     {% csrf_token %}
+    {{form.name.errors}}
     <div class="input-group mb-3">
       <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
       <input type="text" class="form-control" name='name' placeholder="John Doe" value="{{instance.name}}">
     </div>
+    {{form.phone.errors}}
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1"><i class="bi bi-phone-fill"></i></span>
         <input type="text" class="form-control" name='phone' placeholder="8075680337" value="{{instance.phone}}">
     </div>
+    {{form.email.errors}}
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-fill"></i></span>
         <input type="text" class="form-control" name='email' placeholder="example@gmail.com" value="{{instance.email}}">
     </div>
+    {{form.batch.errors}}
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span>
         <input type="text" class="form-control" name='batch' placeholder="1998" value="{{instance.batch}}">

@@ -24,11 +24,8 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            try:
-                id = Alumni.objects.get(email=form.cleaned_data['email']).id
-                return redirect(regVerification, id)
-            except Alumni.MultipleObjectsReturned:
-                return HttpResponse("You have already registered, check your application status here!")
+            id = Alumni.objects.get(email=form.cleaned_data['email']).id
+            return redirect(regVerification, id)
     context = {'form':form}    
     return render(request, 'application/register-application.html', context)
 
@@ -45,7 +42,8 @@ def regEdit(request, id):
         form = RegistrationForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect(regVerification, instance.id)
+            id = Alumni.objects.get(email=form.cleaned_data['email']).id
+            return redirect(regVerification, id)
         
     context = {'form':form, 'instance':instance}
     return render(request, 'application/register-application.html', context)
@@ -69,7 +67,10 @@ def search(request):
 
 def searchResults(request):
     email = request.POST.get('email')
-    result = Alumni.objects.get(email=email)
+    try:
+        result = Alumni.objects.get(email=email)
+    except Alumni.DoesNotExist:
+        return render(request, 'partials/invalid-search.html')
     if result.is_paid:
         context = {'alumni':result}
         return render(request, 'partials/alumni-info.html', context)

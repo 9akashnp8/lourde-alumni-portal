@@ -5,7 +5,7 @@ class Alumni(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     phone = models.IntegerField()
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     batch = models.CharField(max_length=100)
     application_no = models.CharField(max_length=100, blank=True)
     razor_payment_id = models.CharField(max_length=100, blank=True)
