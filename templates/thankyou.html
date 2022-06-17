@@ -4,7 +4,10 @@
 <div class="container py-5">
     <h1 class="display-5 fw-bold">Welcome to the family!</h1>
     <br>
-    <p class="col-md-8 fs-4">Thank you {{alumni.name}} for becoming an Alumni. You will be receive all the alumni information to your registered email address. You can view your application status below:</p>
+    <p class="col-sm-8 fs-4">Your payment was successful, Thank you {{alumni.name}} for becoming an Alumni.
+    <p class="col-sm-8 fs-5">Your payment ID: {{alumni.razor_payment_id}}</p> 
+    <p class="col-sm-8 fs-4">You will be receive all the alumni information to your registered email address. You can view your alumni information below:</p>
+    
     <br>
     <a class="btn btn-primary btn-lg" href="{% url 'search' %}">View Application Status</a>
     <br>

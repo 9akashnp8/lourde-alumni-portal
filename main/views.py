@@ -42,7 +42,7 @@ def regEdit(request, id):
     instance = Alumni.objects.get(id=id)
     form = RegistrationForm()
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
             return redirect(regVerification, instance.id)
