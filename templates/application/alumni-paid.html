@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container p-4">
+    <h1>You have already paid</h1>
+    <p>You are already part of the Lourde Alumni Association, details below:</p>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Your Alumni .No: {{alumni.alumni_no}}</li>
+        <li class="list-group-item">Your Payment ID: {{alumni.razor_payment_id}}</li>
+    </ul>
+</div>
+{% endblock content%}

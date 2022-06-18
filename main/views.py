@@ -40,6 +40,9 @@ def register(request):
 
 def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
+    if alumni.is_paid:
+        context = {'alumni':alumni}
+        return render(request, 'application/alumni-paid.html', context)
     orderID = createOrder()
     context = {'key_id': 'rzp_test_El7Ix2MLAjhhaV', 'order_id': orderID['id'], 'alumni':alumni}
     return render(request, 'application/register-verify.html', context)
