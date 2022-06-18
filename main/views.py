@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from main.models import Alumni
 from .forms import *
 import razorpay
+from .sg_helper import applicationEmail, alumniEmail
 
 #Helper functions
 def createOrder():
@@ -12,6 +13,8 @@ def createOrder():
     data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
     orderID = client.order.create(data=data)
     return orderID
+
+
 
 # Create your views here.
 def home(request):
@@ -24,8 +27,14 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            id = Alumni.objects.get(email=form.cleaned_data['email']).id
-            return redirect(regVerification, id)
+            applicant = Alumni.objects.get(email=form.cleaned_data['email'])
+            applicationEmail(
+                email=applicant.email,
+                name=applicant.name,
+                application_no=applicant.application_no,
+                url=f'http:127.0.0.1:8000/verify/{applicant.id}'
+            )
+            return redirect(regVerification, applicant.id)
     context = {'form':form}    
     return render(request, 'application/register-application.html', context)
 
@@ -57,6 +66,11 @@ def thankyou(request, id):
             alumni.razor_payment_id = payment_info['razorpay_payment_id'][0]
             alumni.razor_order_id = payment_info['razorpay_order_id'][0]
             alumni.save()
+            alumniEmail(
+                email=alumni.email,
+                name=alumni.name,
+                alumni_no=alumni.alumni_no
+            )
         except KeyError:
             return HttpResponse("Payment failed, please try again!")
     context = {'alumni':alumni}

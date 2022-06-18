@@ -129,11 +129,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Email Conifg
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = env.str("EMAIL_USER")
-EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
-
 #Others
 CSRF_TRUSTED_ORIGINS = ['https://*.in.ngrok.io/', 'https://*.127.0.0.1', 'https://api.razorpay.com']
