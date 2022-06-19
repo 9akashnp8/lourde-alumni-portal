@@ -10,10 +10,11 @@ def sendEmail(message):
     try:
         sendgrid_client = SendGridAPIClient(env.str('SENDGRID_API_KEY'))
         response = sendgrid_client.send(message)
-    except Exception as e:
         print(response.status_code)
         print(response.body)
         print(response.headers)
+    except Exception as e:
+        print(e.message)
 
 def applicationEmail(email, name, application_no, url):
     to_emails = [
