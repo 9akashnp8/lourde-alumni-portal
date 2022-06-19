@@ -25,7 +25,7 @@ def applicationEmail(email, name, application_no, url):
         )
     ]
     message = Mail(
-        from_email=('akash.np@lakshyaca.com', 'Lourde Alumni Association'),
+        from_email=(env.str("from_email"), 'Lourde Alumni Association'),
         to_emails=to_emails,)
     message.template_id = 'd-d49ca538d1cd4fef850c5acc36010d06'
 
@@ -42,7 +42,7 @@ def alumniEmail(email, name, alumni_no):
         )
     ]
     message = Mail(
-        from_email=('akash.np@lakshyaca.com', 'Lourde Alumni Association'),
+        from_email=(env.str("from_email"), 'Lourde Alumni Association'),
         to_emails=to_emails,)
     message.template_id = 'd-bbfe2ebc64d140c29d8a0955e85fdbe0'
 

@@ -5,10 +5,14 @@ from main.models import Alumni
 from .forms import *
 import razorpay
 from .sg_helper import applicationEmail, alumniEmail
+from environs import Env
+
+env = Env()
+env.read_env()
 
 #Helper functions
 def createOrder():
-    client = razorpay.Client(auth=("rzp_test_El7Ix2MLAjhhaV", "xBLuN8kFuD368XeUPIximvOJ"))
+    client = razorpay.Client(auth=(env.str("RAZORPAY_ID"), env.str("RAZORPAY_SECRET")))
     client.set_app_details({"title" : "LMS Alumni Payment App", "version" : "0.1"})
     data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
     orderID = client.order.create(data=data)
@@ -42,7 +46,7 @@ def regVerification(request, id):
     alumni = Alumni.objects.get(id=id)
     if alumni.is_paid:
         context = {'alumni':alumni}
-        return render(request, 'application/alumni-paid.html', context)
+        return render(request, 'application/alumni-paid.html', context) 
     orderID = createOrder()
     context = {'key_id': 'rzp_test_El7Ix2MLAjhhaV', 'order_id': orderID['id'], 'alumni':alumni}
     return render(request, 'application/register-verify.html', context)
