@@ -11,7 +11,9 @@ def sendEmail(message):
         sendgrid_client = SendGridAPIClient(env.str('SENDGRID_API_KEY'))
         response = sendgrid_client.send(message)
     except Exception as e:
-        print(e.message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
 
 def applicationEmail(email, name, application_no, url):
     to_emails = [
