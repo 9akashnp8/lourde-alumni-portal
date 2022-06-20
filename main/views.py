@@ -36,7 +36,7 @@ def register(request):
                 email=applicant.email,
                 name=applicant.name,
                 application_no=applicant.application_no,
-                url=f'http:127.0.0.1:8000/verify/{applicant.id}'
+                url=f'https://lourde-alumni-portal.herokuapp.com/verify/{applicant.id}'
             )
             return redirect(regVerification, applicant.id)
     context = {'form':form}    
